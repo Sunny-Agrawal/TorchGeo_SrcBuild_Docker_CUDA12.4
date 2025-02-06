@@ -10,6 +10,8 @@
         build-essential \
         bash-completion \
         cmake \
+        cudnn-cuda-12 \
+        ninja \
         git \
         wget \
         python3 \
