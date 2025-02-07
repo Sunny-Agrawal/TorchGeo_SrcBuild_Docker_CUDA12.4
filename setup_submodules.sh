@@ -3,14 +3,10 @@
 # Ensure we are in the repo root
 cd "$(dirname "$0")"
 
-echo "Initializing PyTorch submodules..."
-git submodule update --init --recursive
+echo "Initializing ALL submodules recursively..."
+git submodule update --init --recursive --remote
 
-# Ensure ONNX's benchmark submodule is also initialized
+# Ensure submodules have full commit history (avoids shallow clone issues)
+git submodule foreach --recursive git fetch --tags
 
-# if [ ! -d "pytorch/third_party/onnx/third_party/benchmark" ]; then
-#     echo "ONNX benchmark submodule is missing. Initializing..."
-#     git submodule update --init pytorch/third_party/onnx/third_party/benchmark
-# fi
-
-echo "Submodules are fully initialized!"
+echo "All submodules are now fully initialized!"
