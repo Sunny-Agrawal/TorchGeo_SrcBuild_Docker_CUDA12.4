@@ -22,7 +22,9 @@ else
     pip install --no-cache-dir -r /tmp/requirements.txt
 fi
 
-# Mark PyTorch repo as safe to prevent "dubious ownership" error
+# Mark the entire repo as safe to prevent "dubious ownership" error
+git config --global --add safe.directory /usr/local/ML_Repo
+# Mark PyTorch repo as safe
 git config --global --add safe.directory /usr/local/ML_Repo/pytorch
 
 # Ensure PyTorch submodules are fully initialized
