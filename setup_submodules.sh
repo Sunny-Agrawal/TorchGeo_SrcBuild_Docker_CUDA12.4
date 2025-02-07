@@ -16,8 +16,8 @@ git fetch --tags
 git checkout v2.4.0
 git submodule update --init --recursive
 
-# Fix psimd submodule if it's empty
-if [ ! "$(ls -A third_party/psimd 2>/dev/null)" ]; then
+# Fix psimd submodule if it is missing actual source files
+if [ "$(ls -A third_party/psimd | grep -v '^\.git$' | wc -l)" -eq 0 ]; then
     echo "psimd submodule is empty! Forcing a fresh clone..."
     rm -rf third_party/psimd
     git clone https://github.com/Maratyszcza/psimd.git third_party/psimd
