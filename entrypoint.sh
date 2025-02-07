@@ -29,11 +29,31 @@ git config --global --add safe.directory /usr/local/ML_Repo/pytorch
 cd /usr/local/ML_Repo/pytorch
 git submodule update --init --recursive
 
+# Checkout the correct PyTorch version (v2.5.0)
+echo "Checking out PyTorch v2.5.0..."
+git fetch --tags
+git checkout v2.5.0
+
 # Build PyTorch from source if not already built
 if [ ! -f "/opt/venv/lib/python3.10/site-packages/torch/__init__.py" ]; then
     echo "PyTorch not found. Building from source..."
     pip install --no-cache-dir -r requirements.txt
     python setup.py develop
+    
+    # Build torchvision and torchaudio
+    echo "Building torchvision from source..."
+    cd /usr/local/ML_Repo
+    git clone --recursive https://github.com/pytorch/vision.git torchvision
+    cd torchvision
+    git checkout v0.15.0  # Match with PyTorch 2.5
+    python setup.py install
+    
+    echo "Building torchaudio from source..."
+    cd /usr/local/ML_Repo
+    git clone --recursive https://github.com/pytorch/audio.git torchaudio
+    cd torchaudio
+    git checkout v2.5.0  # Match with PyTorch 2.5
+    python setup.py install
 else
     echo "PyTorch is already installed. Skipping build."
 fi
